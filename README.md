@@ -1,88 +1,57 @@
-# AWS Observability & Monitoring Project
+# 📊 AWS Observability & Monitoring Project
 
-An AWS-based observability and monitoring project using Prometheus, Node Exporter, Grafana, and PagerDuty.
+## 📌 Project Overview
 
-## Architecture
+This project demonstrates an end-to-end **AWS infrastructure observability and monitoring solution** using **Amazon EC2, Node Exporter, Prometheus, Grafana, and PagerDuty**.
 
-AWS EC2 Instances
-        |
-        v
-  Node Exporter
-        |
-        v
-    Prometheus
-        |
-        v
-     Grafana
-        |
-        v
- Monitoring & Visualization
-        |
-        v
-    Alert Rules
-        |
-        v
-    PagerDuty
+The main goal of this project is to monitor EC2 server performance, collect infrastructure metrics, visualize those metrics through Grafana dashboards, configure alerts, and send incidents to PagerDuty.
 
-## Technologies
-
-- AWS EC2
-- Linux
-- Prometheus
-- Node Exporter
-- Grafana
-- PromQL
-- PagerDuty
-
-## Project Work
-
-### 1. AWS EC2
-Created and configured EC2 instances for the monitoring environment.
-
-### 2. Node Exporter
-Installed Node Exporter on monitored EC2 instances to expose system-level metrics such as CPU, memory, disk, and network statistics.
-
-Default endpoint:
-`http://<SERVER-IP>:9100/metrics`
-
-### 3. Prometheus
-Configured Prometheus to scrape metrics exposed by Node Exporter and collect monitoring data.
-
-### 4. Grafana
-Connected Grafana with Prometheus and created dashboards to visualize infrastructure metrics including:
+The monitoring solution provides visibility into important system resources such as:
 
 - CPU utilization
-- Memory usage
+- Memory utilization
 - Disk usage
-- Network metrics
+- Network traffic
+- Filesystem usage
 - System uptime
+- Server health
 
-### 5. Alerting
-Configured monitoring alerts based on infrastructure metrics.
+---
 
-### 6. PagerDuty
-Integrated PagerDuty for incident management and tested alert notifications when monitoring conditions were triggered.
-
-## Repository Structure
+# 🏗️ Architecture
 
 ```text
-aws-observability-monitoring/
-├── README.md
-├── prometheus/
-│   └── prometheus.yml
-├── grafana/
-│   ├── dashboards/
-│   └── datasource/
-├── node-exporter/
-│   └── installation.md
-├── alerting/
-│   ├── alert-rules.yml
-│   └── pagerduty.md
-├── scripts/
-│   └── installation-commands.sh
-└── screenshots/
-```
-
-## Note
-
-Do not commit AWS credentials, private SSH keys, API keys, passwords, or other secrets.
+                         AWS Cloud
+                            │
+             ┌──────────────┴──────────────┐
+             │                             │
+             ▼                             ▼
+       EC2 Node Server              EC2 Node Server
+             │                             │
+             │                             │
+      Node Exporter                 Node Exporter
+          :9100                         :9100
+             │                             │
+             └──────────────┬──────────────┘
+                            │
+                            ▼
+                       Prometheus
+                          :9090
+                            │
+                  ┌─────────┴─────────┐
+                  │                   │
+                  ▼                   ▼
+               Grafana           Alert Rules
+                :3000                 │
+                  │                   ▼
+                  │              Alertmanager
+                  │                   │
+                  │                   ▼
+                  │               PagerDuty
+                  │                   │
+                  │                   ▼
+                  │                Incident
+                  │
+                  ▼
+             Monitoring
+             Dashboards
